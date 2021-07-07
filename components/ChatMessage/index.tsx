@@ -16,19 +16,19 @@ const ChatMessage = (props: any) => {
     return message.user.id === myId;
   }
 
-
   return (
     <View style={styles.container}>
       <View style={[
         styles.messageBox, {
           backgroundColor: isMyMessage() ? '#DCF8C5' : '#d7d9d7',
-          marginLeft: isMyMessage() ? 50 : 0,
-          marginRight: isMyMessage() ? 0 : 50,
+          marginLeft: isMyMessage() ? '20%' : 0,
         }
       ]}>
-        {!isMyMessage() && <Text style={styles.name}>{message.user.username}</Text>}
-        <Text style={styles.message}>{message.content}</Text>
-        <Text style={styles.time}>{moment(message.createdAt).fromNow()}</Text>
+        <View style={styles.messageContainer}>
+          {!isMyMessage() && <Text style={styles.name}>{message.user.username}</Text>}
+          <Text style={styles.message}>{message.content}</Text>
+          <Text style={styles.time}>{moment(message.createdAt).fromNow()}</Text>
+        </View>
       </View>
     </View>
   )

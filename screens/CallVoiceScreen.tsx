@@ -1,31 +1,18 @@
 import * as React from "react";
-import { FlatList, StyleSheet, Image, TextInput, Dimensions, Alert, TouchableOpacity } from "react-native";
+import { StyleSheet, Image, Dimensions, Alert, TouchableOpacity } from "react-native";
 import { View, Text } from "../components/Themed";
-
 const { width } = Dimensions.get('window');
 
-
 import { useEffect, useState } from "react";
+import socketClient from "socket.io-client";
+
+const SERVER = "http://localhost:8000/";
 
 
 export default function CallVoiceScreen(props: any) {
-  const [userId, setUserId] = useState("607dbf50409cd8c0bdaf6bad");
-  const [userList, setUserList] = useState<any>([]);
-  const [userFullList, setFullUserList] = useState<any>([]);
-  const [searchInput, setSearchInput] = useState("");
 
-  const { user } = props.route.params;
-
-
-    const state = {
-      modalVisible:false,
-      userSelected:[],
-      User:{
-        id:1,
-        name:"Mark Johnson",
-        image:"https://bootdey.com/img/Content/avatar/avatar6.png",
-      }
-    };
+  const { user, myInfo } = props.route.params;
+  const socket = socketClient(SERVER);
 
 
   const clickEventListener = () =>{
@@ -33,7 +20,36 @@ export default function CallVoiceScreen(props: any) {
   }
 
   useEffect(() => {
-    console.log(user);
+    socket.on('connect', function () {
+      socket.emit('join', {
+        username: myInfo.username
+      });
+    });
+    socket.emit('userPresence', {
+      username: myInfo.username
+    });
+    socket.on('onlineUsers', function (onlineUsers) {
+      console.log(onlineUsers, 'check')
+      //save data-user not sender
+      // for(let u in onlineUsers) {
+        // chatObject.data.connections[user.username] = {
+        //   onlineStatus: 'online'
+      // }
+    });
+
+    socket.on('disconnect', function () {
+      // To intimate other clients about disconnection from server
+      socket.emit('disconnect', {
+        username: myInfo.username
+      });
+    });
+
+    socket.on('disconnected', function (username) {
+      // chatObject.data.connections[username] = {
+      //   onlineStatus: 'offline',
+      // };
+    });
+
   }, [])
 
   return (
@@ -43,13 +59,13 @@ export default function CallVoiceScreen(props: any) {
         <Image style={[styles.iconImg, { marginRight: 50 }]} source={{uri: "https://img.icons8.com/color/48/000000/video-call.png"}}/>
         <Text style={styles.subText}>WHATSAPP CALL</Text>
       </View>
-      <Text style={styles.title}>{state.User.name}</Text>
+      <Text style={styles.title}>{user.username}</Text>
       <Text style={styles.subText}>CALLING</Text>
     </View>
     <TouchableOpacity style={[styles.btnStopCall, styles.shadow]} onPress={clickEventListener}>
       <Image style={styles.iconImg} source={{uri: "https://img.icons8.com/windows/32/000000/phone.png"}}/>
     </TouchableOpacity>
-    <Image style={[styles.image]} source={{ uri: state.User.image }}/>
+    <Image style={[styles.image]} source={{ uri: user.imageUri }}/>
     <View style={styles.bottomBar}>
       <TouchableOpacity style={[styles.btnAction, styles.shadow]} onPress={clickEventListener}>
         <Image style={styles.iconImg} source={{uri: "https://img.icons8.com/material-rounded/48/000000/speaker.png"}}/>

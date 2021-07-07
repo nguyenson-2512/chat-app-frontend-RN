@@ -14,18 +14,19 @@ import { useNavigation } from '@react-navigation/native';
 
 export type CallItemProps = {
   user: User;
+  myInfo: User;
 }
 
 const CallItem = (props: CallItemProps) => {
 
-    const { user } = props;
+    const { user, myInfo } = props;
     var callIcon = "https://img.icons8.com/color/48/000000/phone.png";
 
     const navigation = useNavigation();
     const onClick = () => {
       navigation.navigate('CallVoice', {
-        user
-        // name: 'son'
+        user,
+        myInfo
       })
     }
 

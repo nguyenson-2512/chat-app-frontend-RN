@@ -6,6 +6,7 @@ export type RootStackParamList = {
   CallVoice: undefined;
   Login: undefined;
   Register: undefined;
+  UpdateAccount: undefined;
 };
 
 export type AuthStackParamList = {

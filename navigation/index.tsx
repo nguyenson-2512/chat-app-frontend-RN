@@ -25,6 +25,8 @@ import ContactsScreen from "../screens/ContactsScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import CallVoiceScreen from "../screens/CallVoiceScreen"
+import MenuThreeDots from "../components/MenuThreeDots";
+import UpdateAccountScreen from "../screens/UpdateAccountScreen";
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -106,11 +108,7 @@ function RootNavigator() {
               }}
             >
               <Octicons name="search" size={22} color={"white"} onPress={() => {navigation.navigate('Contacts')}}/>
-              <MaterialCommunityIcons
-                name="dots-vertical"
-                size={22}
-                color={"white"}
-              />
+              <MenuThreeDots />
             </View>
           ),
         })}
@@ -150,6 +148,7 @@ function RootNavigator() {
       />
       <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen}></Stack.Screen>
       <Stack.Screen options={{headerShown: false}} name="Register" component={RegisterScreen}></Stack.Screen>
+      <Stack.Screen name="UpdateAccount" component={UpdateAccountScreen}></Stack.Screen>
     </Stack.Navigator>
   );
 }
