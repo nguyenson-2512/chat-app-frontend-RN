@@ -74,32 +74,6 @@ export default class LoginScreen extends Component<any, any> {
 
   render() {
     return (
-      // <KeyboardAvoidingView style={styles.containerView} behavior="padding">
-      //   <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      //     <View style={styles.loginScreenContainer}>
-      //       <View style={styles.loginFormView}>
-      //         <Text style={styles.logoText}>Instamobile</Text>
-      //         <TextInput
-      //           placeholder="Username"
-      //           placeholderTextColor="#c4c3cb"
-      //           style={styles.loginFormTextInput}
-      //         />
-      //         <TextInput
-      //           placeholder="Password"
-      //           placeholderTextColor="#c4c3cb"
-      //           style={styles.loginFormTextInput}
-      //           secureTextEntry={true}
-      //         />
-      //         <Button
-      //           buttonStyle={styles.loginButton}
-      //           title="Login"
-      //           onPress={() => this._onSubmit()}
-      //         />
-      //       </View>
-      //     </View>
-      //   </TouchableWithoutFeedback>
-      // </KeyboardAvoidingView>
-
       <View style={styles.container}>
         <Text style={[styles.title, styles.leftTitle]}>Login your account</Text>
         <View style={styles.InputContainer}>

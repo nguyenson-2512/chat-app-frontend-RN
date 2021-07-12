@@ -2,13 +2,14 @@ import * as React from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { View } from "../components/Themed";
 import ChatListItem from "../components/ChatListItem";
-// import NewMessageButton from "../components/NewMessageButton";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function ChatsScreen(props: any) {
   const [chatRoomList, setChatRoomsList] = useState([]);
   const [userId, setUserId] = useState();
+  const isFocused = useIsFocused();
 
   const getData = async () => {
     try {
@@ -26,13 +27,12 @@ export default function ChatsScreen(props: any) {
       fetchChatRoomList(user._id);
     }
     getUserInfo();
-  }, []);
+  }, [isFocused]);
 
   const fetchChatRoomList = (userId: any) => {
     fetch(`http://localhost:3000/api/chat/${userId}`)
       .then((response) => response.json())
       .then((json) => {
-        console.log(json, "list chat rôm");
         setChatRoomsList(json);
       })
       .catch((error) => console.error(error));

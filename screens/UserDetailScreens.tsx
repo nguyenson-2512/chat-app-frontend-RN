@@ -1,44 +1,38 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Image,
-  ImageBackground,
-  TouchableOpacity,
-} from "react-native";
-import { Text, View } from "../components/Themed";
-import moment from "moment";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AntDesign } from "@expo/vector-icons";
-import { useIsFocused, useNavigation } from "@react-navigation/native";
+import moment from "moment";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { Image, ImageBackground, StyleSheet } from "react-native";
+import { Text, View } from "../components/Themed";
 
-export default function ProfileScreen() {
+export default function UserDetailScreen() {
   const [userInfo, setUserInfo] = useState<any>();
-  const navigation = useNavigation();
-  const isFocused = useIsFocused();
 
   const getData = async () => {
     try {
-      const jsonValue = await AsyncStorage.getItem("user");
+      const jsonValue = await AsyncStorage.getItem("target-user");
       return jsonValue != null ? JSON.parse(jsonValue) : null;
     } catch (e) {
       console.log(e);
     }
   };
 
+  const getUserDetail = (userId: any) => {
+    fetch(`http://localhost:3000/api/user/${userId}`)
+      .then((response) => response.json())
+      .then((json) => {
+        setUserInfo(json);
+      })
+      .catch((error) => console.error(error));
+  };
+
   useEffect(() => {
     async function getUserInfo() {
-      const { user } = await getData();
-      setUserInfo(user);
+      const targetUser = await getData();
+      getUserDetail(targetUser._id);
     }
     getUserInfo();
-  }, [isFocused]);
-
-  const navigateEditAccount = () => {
-    navigation.navigate("UpdateAccount", {
-      userInfo,
-    });
-  };
+  }, []);
 
   return (
     <View style={styles.header}>
@@ -57,13 +51,6 @@ export default function ProfileScreen() {
           </Text>
           <Text style={styles.userInfo}>{userInfo?.bio}</Text>
           <Text style={styles.userInfo}>{userInfo?.address}</Text>
-          <TouchableOpacity
-            style={styles.editBtn}
-            onPress={navigateEditAccount}
-          >
-            <AntDesign name="edit" size={24} color="black" />
-            <Text style={styles.editLabel}>Update account</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -134,15 +121,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 20,
     color: "#FFFFFF",
-  },
-  editBtn: {
-    marginTop: 10,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  editLabel: {
-    color: "#2F95DC",
-    marginLeft: 5,
-    fontSize: 16,
   },
 });

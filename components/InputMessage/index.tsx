@@ -1,27 +1,21 @@
+import {
+  Entypo,
+  FontAwesome5,
+  Fontisto,
+  MaterialIcons,
+} from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import styles from "./style";
 
-import {
-  MaterialCommunityIcons,
-  MaterialIcons,
-  FontAwesome5,
-  Entypo,
-  Fontisto,
-} from "@expo/vector-icons";
-import socketClient from "socket.io-client";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-const SERVER = "http://localhost:8000/";
-
 const InputMessage = (props: any) => {
-  const socket = socketClient(SERVER);
   const { chatRoomID } = props;
 
   const [message, setMessage] = useState("");
@@ -44,10 +38,6 @@ const InputMessage = (props: any) => {
     getUserInfo();
   }, []);
 
-  const onMicrophonePress = () => {
-    console.warn("Microphone");
-  };
-
   const onSendPress = async () => {
     try {
       props.parentCallback({
@@ -59,17 +49,6 @@ const InputMessage = (props: any) => {
           imageUri: userData.imageUri,
         },
       });
-
-      // this.setState((state) => {
-      //   // Update the chat with the user's message and remove the current message.
-      //   return {
-      //     chat: [...state.chat, {
-      //       name: state.name,
-      //       content: state.content,
-      //     }],
-      //     content: '',
-      //   };
-      // }, this.scrollToBottom);
     } catch (e) {
       console.log(e);
     }
@@ -78,9 +57,7 @@ const InputMessage = (props: any) => {
   };
 
   const onPress = () => {
-    if (!message) {
-      onMicrophonePress();
-    } else {
+    if (message) {
       onSendPress();
     }
   };
@@ -118,15 +95,7 @@ const InputMessage = (props: any) => {
         </View>
         <TouchableOpacity onPress={onPress}>
           <View style={styles.buttonContainer}>
-            {!message ? (
-              <MaterialCommunityIcons
-                name="microphone"
-                size={28}
-                color="white"
-              />
-            ) : (
-              <MaterialIcons name="send" size={28} color="white" />
-            )}
+            <MaterialIcons name="send" size={28} color="white" />
           </View>
         </TouchableOpacity>
       </View>

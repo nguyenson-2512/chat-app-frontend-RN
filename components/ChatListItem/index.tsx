@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  Image,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { View, Text, Image, TouchableWithoutFeedback } from "react-native";
 import { ChatRoom } from "../../types";
 import styles from "./style";
 import moment from "moment";
@@ -32,14 +27,14 @@ function ChatListItem(props: any) {
   return (
     <TouchableWithoutFeedback onPress={onClick}>
       <View style={styles.container}>
-        <View style={styles.lefContainer}>
+        <View style={styles.leftContainer}>
           <Image
             source={{ uri: chatRoom.users[1].imageUri }}
             style={styles.avatar}
           />
           <View style={styles.midContainer}>
             <Text style={styles.username}>{chatRoom.users[1].username}</Text>
-            <Text numberOfLines={2} style={styles.lastMessage}>
+            <Text numberOfLines={1} style={styles.lastMessage}>
               {chatRoom?.lastMessage ? `${chatRoom?.lastMessage?.content}` : ""}
             </Text>
           </View>

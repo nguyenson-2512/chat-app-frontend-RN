@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-
+ 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -7,11 +7,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 10,
   },
-  lefContainer: {
+  leftContainer: {
     flexDirection: 'row',
+    width: '80%'
   },
   midContainer: {
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    width: '80%'
   },
   avatar: {
     width: 60,
@@ -29,8 +31,9 @@ const styles = StyleSheet.create({
   },
   time: {
     fontSize: 14,
-    color: 'grey'
+    color: 'grey',
+    width: '20%'
   },
 });
-
+ 
 export default styles;

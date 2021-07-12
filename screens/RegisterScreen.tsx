@@ -11,7 +11,6 @@ export default class RegisterScreen extends Component<any, any> {
       username: "",
       email: "",
       password: "",
-      imageUri: "",
       checkLogin: 1,
     };
   }
@@ -28,7 +27,6 @@ export default class RegisterScreen extends Component<any, any> {
         email: this.state.email,
         password: this.state.password,
         confirmPassword: this.state.password,
-        imageUri: this.state.imageUri
       }),
     })
       .then((response) => response.json())
@@ -76,15 +74,6 @@ export default class RegisterScreen extends Component<any, any> {
             placeholder="Password"
             secureTextEntry={true}
             onChangeText={(text) => this.setState({ password: text })}
-            placeholderTextColor={AppStyles.color.grey}
-            underlineColorAndroid="transparent"
-          />
-        </View>
-        <View style={styles.InputContainer}>
-          <TextInput
-            style={styles.body}
-            placeholder="Image Uri"
-            onChangeText={(text) => this.setState({ imageUri: text })}
             placeholderTextColor={AppStyles.color.grey}
             underlineColorAndroid="transparent"
           />

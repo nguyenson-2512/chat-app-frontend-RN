@@ -5,15 +5,10 @@ import {
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
-import {useState} from "react"
-import { ColorSchemeName, View , AsyncStorage} from "react-native";
+import { useState } from "react";
+import { ColorSchemeName, View, AsyncStorage } from "react-native";
 import Colors from "../constants/Colors";
-import {
-  Octicons,
-  MaterialCommunityIcons,
-  MaterialIcons,
-  FontAwesome5,
-} from "@expo/vector-icons";
+import { Octicons, MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
 
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList, AuthStackParamList } from "../types";
@@ -24,24 +19,26 @@ import ChatRoomScreen from "../screens/ChatRoomScreen";
 import ContactsScreen from "../screens/ContactsScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
-import CallVoiceScreen from "../screens/CallVoiceScreen"
+import CallVoiceScreen from "../screens/CallVoiceScreen";
 import MenuThreeDots from "../components/MenuThreeDots";
 import UpdateAccountScreen from "../screens/UpdateAccountScreen";
+import ChatRoomMenu from "../components/ChatRoomMenu";
+import UserDetailScreen from "../screens/UserDetailScreens";
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
 export default function Navigation({
-  colorScheme
+  colorScheme,
 }: {
   colorScheme: ColorSchemeName;
 }) {
-  const [user, setUser]= useState(null)
+  const [user, setUser] = useState(null);
   const _retrieveData = async () => {
     try {
-      const value = await AsyncStorage.getItem('user');
+      const value = await AsyncStorage.getItem("user");
       if (value !== null) {
         // We have data!!
-        setUser(value)
+        setUser(value);
       }
     } catch (error) {
       // Error retrieving data
@@ -71,9 +68,12 @@ function AuthNavigator() {
   return (
     <AuthStack.Navigator>
       <AuthStack.Screen name="Login" component={LoginScreen}></AuthStack.Screen>
-      <AuthStack.Screen name="Register" component={RegisterScreen}></AuthStack.Screen>
+      <AuthStack.Screen
+        name="Register"
+        component={RegisterScreen}
+      ></AuthStack.Screen>
     </AuthStack.Navigator>
-  )
+  );
 }
 const Stack = createStackNavigator<RootStackParamList>();
 function RootNavigator() {
@@ -107,7 +107,14 @@ function RootNavigator() {
                 marginRight: 10,
               }}
             >
-              <Octicons name="search" size={22} color={"white"} onPress={() => {navigation.navigate('Contacts')}}/>
+              <Octicons
+                name="search"
+                size={22}
+                color={"white"}
+                onPress={() => {
+                  navigation.navigate("Contacts");
+                }}
+              />
               <MenuThreeDots />
             </View>
           ),
@@ -125,16 +132,11 @@ function RootNavigator() {
                 flexDirection: "row",
                 width: 100,
                 justifyContent: "space-between",
-                marginRight: 10,
               }}
             >
-              <FontAwesome5 name="video" size={22} color={"white"} />
+              <FontAwesome5 name="video" size={22} color={"white"} style={{paddingRight: 10}}/>
               <MaterialIcons name="call" size={22} color={"white"} />
-              <MaterialCommunityIcons
-                name="dots-vertical"
-                size={22}
-                color={"white"}
-              />
+              <ChatRoomMenu />
             </View>
           ),
         })}
@@ -146,9 +148,25 @@ function RootNavigator() {
         component={NotFoundScreen}
         options={{ title: "Oops!" }}
       />
-      <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen}></Stack.Screen>
-      <Stack.Screen options={{headerShown: false}} name="Register" component={RegisterScreen}></Stack.Screen>
-      <Stack.Screen name="UpdateAccount" component={UpdateAccountScreen}></Stack.Screen>
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Login"
+        component={LoginScreen}
+      ></Stack.Screen>
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Register"
+        component={RegisterScreen}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="UpdateAccount"
+        component={UpdateAccountScreen}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="UserDetail"
+        component={UserDetailScreen}
+        options={{ title: "User Profile" }}
+      ></Stack.Screen>
     </Stack.Navigator>
   );
 }

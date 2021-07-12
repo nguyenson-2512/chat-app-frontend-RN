@@ -1,12 +1,12 @@
-import * as React from "react";
-import { FlatList, StyleSheet } from "react-native";
-import { View, Text } from "../components/Themed";
-import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRoute } from "@react-navigation/native";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { FlatList, StyleSheet } from "react-native";
+import socketClient from "socket.io-client";
 import ChatMessage from "../components/ChatMessage";
 import InputMessage from "../components/InputMessage";
-import socketClient from "socket.io-client";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { View } from "../components/Themed";
 const SERVER = "http://localhost:8000/";
 
 const ContactsScreen = (props: any) => {
@@ -21,6 +21,14 @@ const ContactsScreen = (props: any) => {
     try {
       const jsonValue = await AsyncStorage.getItem("user");
       return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const removeUserData = async () => {
+    try {
+      await AsyncStorage.removeItem("target-user");
     } catch (e) {
       console.log(e);
     }
@@ -54,11 +62,33 @@ const ContactsScreen = (props: any) => {
     async function getUserInfo() {
       const { user } = await getData();
       setUserId(user._id);
+      await storeData(targetUser);
       const ids = [user._id, targetUser._id];
       fetchChatRoom(ids, user);
     }
     getUserInfo();
+    return () => {
+      removeUserData();
+    };
   }, []);
+
+  const storeData = async (value: any) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem("target-user", jsonValue);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const storeChatRoom = async (value: any) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem("target-chatroom", jsonValue);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const fetchChatRoom = (userIds: any, userData: any) => {
     fetch("http://localhost:3000/api/chat/chatroom", {
@@ -77,6 +107,7 @@ const ContactsScreen = (props: any) => {
       .then((json) => {
         if (json.id != 0) {
           setChatRoomId(json.id);
+          storeChatRoom(json.id);
           socket.emit("current-chatroom", json.id);
           socket.on("init", (chats) => {
             console.log("hehe", chats);
@@ -104,8 +135,14 @@ const ContactsScreen = (props: any) => {
         renderItem={({ item }) => <ChatMessage message={item} myId={userId} />}
         inverted
         keyExtractor={(item) => item._id.toString()}
+        style={styles.flatList}
       />
-      <InputMessage parentCallback={callbackFunction} chatRoomID={chatRoomId} />
+      <View style={styles.input}>
+        <InputMessage
+          parentCallback={callbackFunction}
+          chatRoomID={chatRoomId}
+        />
+      </View>
     </View>
   );
 };
@@ -113,6 +150,16 @@ const ContactsScreen = (props: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  flatList: {
+    height: 680,
+    flexGrow: 0,
+  },
+  input: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 });
 
