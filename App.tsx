@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme('light');
+  const colorScheme = useColorScheme();
 
   const setDefaultTheme = async (value: any) => {
     try {
@@ -32,7 +32,7 @@ export default function App() {
   const setUpTheme = async () => {
     try {
       const theme = await AsyncStorage.getItem("theme");
-      colorScheme = useColorScheme(theme);
+      // colorScheme = useColorScheme(theme);
     } catch (e) {
       console.error(e);
     }

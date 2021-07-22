@@ -20,8 +20,9 @@ export type BottomTabParamList = {
   TabTwo: undefined;
 };
 
-export type TabOneParamList = {
-  TabOneScreen: undefined;
+export type FriendParamList = {
+  FriendRequest: undefined;
+  FriendList: undefined;
 };
 
 export type TabTwoParamList = {
@@ -29,7 +30,7 @@ export type TabTwoParamList = {
 };
 
 export type MainTabParamList = {
-  Camera: undefined;
+  Friend: undefined;
   Chats: undefined;
   Call: undefined;
   Profile: undefined;

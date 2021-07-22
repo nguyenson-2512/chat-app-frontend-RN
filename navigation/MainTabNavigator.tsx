@@ -15,12 +15,30 @@ import ChatsScreen from '../screens/ChatsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import CallScreen from '../screens/CallScreen';
 // import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
-import { MainTabParamList, TabOneParamList, TabTwoParamList } from '../types';
+import { FriendParamList, MainTabParamList, TabTwoParamList } from '../types';
+import FriendListScreen from '../screens/FriendListScreen';
+import FriendRequestScreen from '../screens/FriendRequestScreen';
 
 const MainTab = createMaterialTopTabNavigator<MainTabParamList>();
-
+const Tab = createMaterialTopTabNavigator();
+function FriendTabs() {
+  return (
+    <Tab.Navigator
+      tabBarOptions={{
+        labelStyle: { fontSize: 12, color: '#354a5f' },
+        tabStyle: { width: 200, height: 40, marginTop: 10, justifyContent: 'center' },
+        style: { backgroundColor: 'white', textAlign: 'center', display: 'flex', width: '100%' },
+        indicatorStyle: {height: 37,width: 200, backgroundColor: '#69C1E6', borderRadius: 40}
+      }}>
+      <Tab.Screen name="Friend List" component={FriendListScreen} />
+      <Tab.Screen name="Friend Request" component={FriendRequestScreen} />
+    </Tab.Navigator>
+  );
+}
 export default function MainTabNavigator() {
   const colorScheme = useColorScheme();
+
+
 
   return (
     <MainTab.Navigator
@@ -28,15 +46,10 @@ export default function MainTabNavigator() {
       tabBarOptions={{
         activeTintColor: Colors[colorScheme].text,
         style: {
-          // backgroundColor: Colors[colorScheme].tint,
-          // backgroundColor: 'green',
           backgroundColor: Colors[colorScheme].background,
-
-
         },
         indicatorStyle: {
           backgroundColor: Colors[colorScheme].text,
-          // backgroundColor: 'green',
           height: 4,
         },
         labelStyle: {
@@ -45,17 +58,17 @@ export default function MainTabNavigator() {
         showIcon: true,
       }}>
       <MainTab.Screen
-        name="Camera"
-        component={TabOneNavigator}
+        name="Chats"
+        component={ChatsScreen}
+      />
+      <MainTab.Screen
+        name="Friend"
+        component={FriendTabs}
         // options={{
 
         //   tabBarIcon: ({ color }) => <Fontisto name="camera" color={color} size={18} />,
         //   tabBarLabel: () => null
         // }}
-      />
-      <MainTab.Screen
-        name="Chats"
-        component={ChatsScreen}
       />
       <MainTab.Screen
         name="Call"
@@ -77,19 +90,6 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator<TabOneParamList>();
-
-function TabOneNavigator() {
-  return (
-    <TabOneStack.Navigator>
-      <TabOneStack.Screen
-        name="TabOneScreen"
-        component={TabTwoScreen}
-        options={{  }}
-      />
-    </TabOneStack.Navigator>
-  );
-}
 
 const TabTwoStack = createStackNavigator<TabTwoParamList>();
 
