@@ -14,12 +14,18 @@ import {
   View,
 } from "react-native";
 import styles from "./style";
+import * as ImagePicker from "expo-image-picker";
+import EmojiPicker from 'rn-emoji-keyboard';
 
 const InputMessage = (props: any) => {
   const { chatRoomID } = props;
 
   const [message, setMessage] = useState("");
   const [userData, setUserData] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const handlePick = (emojiObject: any) => {
+    setMessage(message + emojiObject.emoji)
+  };
 
   const getData = async () => {
     try {
@@ -38,11 +44,11 @@ const InputMessage = (props: any) => {
     getUserInfo();
   }, []);
 
-  const onSendPress = async () => {
+  const onSendPress = async (image?: string) => {
     try {
       props.parentCallback({
         chatRoomId: chatRoomID,
-        content: message,
+        content: image ? image : message,
         user: {
           id: userData._id,
           username: userData.username,
@@ -62,6 +68,20 @@ const InputMessage = (props: any) => {
     }
   };
 
+  const selectImage = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert("You've refused to allow this appp to access your photos!");
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync();
+    if (!result.cancelled) {
+      onSendPress(result.uri)
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS == "ios" ? "padding" : "height"}
@@ -70,7 +90,9 @@ const InputMessage = (props: any) => {
     >
       <View style={styles.container}>
         <View style={styles.mainContainer}>
-          <FontAwesome5 name="laugh-beam" size={24} color="grey" />
+          <TouchableOpacity onPress={() => setIsOpen(true)}>
+            <FontAwesome5 name="laugh-beam" size={24} color="grey" />
+          </TouchableOpacity>
           <TextInput
             placeholder={"Type a message"}
             style={styles.textInput}
@@ -85,12 +107,14 @@ const InputMessage = (props: any) => {
             style={styles.icon}
           />
           {!message && (
-            <Fontisto
-              name="camera"
-              size={24}
-              color="grey"
-              style={styles.icon}
-            />
+            <TouchableOpacity onPress={selectImage}>
+              <Fontisto
+                name="camera"
+                size={24}
+                color="grey"
+                style={styles.icon}
+              />
+            </TouchableOpacity>
           )}
         </View>
         <TouchableOpacity onPress={onPress}>
@@ -99,6 +123,10 @@ const InputMessage = (props: any) => {
           </View>
         </TouchableOpacity>
       </View>
+      <EmojiPicker
+      onEmojiSelected={handlePick}
+      open={isOpen}
+      onClose={() => setIsOpen(false)} />
     </KeyboardAvoidingView>
   );
 };

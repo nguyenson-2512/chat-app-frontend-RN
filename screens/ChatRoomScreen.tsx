@@ -110,7 +110,6 @@ const ContactsScreen = (props: any) => {
           storeChatRoom(json.id);
           socket.emit("current-chatroom", json.id);
           socket.on("init", (chats) => {
-            console.log("hehe", chats);
             setChatList(chats);
           });
         } else {
@@ -154,6 +153,7 @@ const styles = StyleSheet.create({
   flatList: {
     height: 680,
     flexGrow: 0,
+    marginBottom: 70
   },
   input: {
     position: "absolute",

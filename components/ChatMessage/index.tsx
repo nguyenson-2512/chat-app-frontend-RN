@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, Image} from 'react-native';
 import { Message } from "../../types";
 import moment from "moment";
 import styles from './style';
@@ -26,7 +26,11 @@ const ChatMessage = (props: any) => {
       ]}>
         <View style={styles.messageContainer}>
           {!isMyMessage() && <Text style={styles.name}>{message.user.username}</Text>}
-          <Text style={styles.message}>{message.content}</Text>
+          {message.content.length < 255 ? <Text style={styles.message}>{message.content}</Text> : 
+            <Image
+              source={{ uri: message.content }}
+              style={styles.image}
+            />}
           <Text style={styles.time}>{moment(message.createdAt).fromNow()}</Text>
         </View>
       </View>

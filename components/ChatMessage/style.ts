@@ -25,6 +25,12 @@ const styles = StyleSheet.create({
   },
   message: {
     width: '100%'
+  },
+  image: {
+    width: 250,
+    height: 250,
+    resizeMode: "contain",
+    marginLeft: 22
   }
 });
 
