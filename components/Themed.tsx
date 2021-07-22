@@ -1,4 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as React from 'react';
+import { useEffect } from 'react';
 import { Text as DefaultText, View as DefaultView } from 'react-native';
 
 import Colors from '../constants/Colors';
@@ -8,7 +10,24 @@ export function useThemeColor(
   props: { light?: string; dark?: string },
   colorName: keyof typeof Colors.light & keyof typeof Colors.dark
 ) {
+  // const theme = useColorScheme('light');
   const theme = useColorScheme();
+  // let colorScheme;
+  // const setUpTheme = async () => {
+  //   try {
+  //     const theme = await AsyncStorage.getItem("theme");
+  //     colorScheme = useColorScheme(theme);
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   async function handleTheme() {
+  //     await setUpTheme();
+  //   }
+  //   handleTheme();
+  // }, [colorScheme]);
   const colorFromProps = props[theme];
 
   if (colorFromProps) {

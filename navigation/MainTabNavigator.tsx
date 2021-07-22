@@ -28,11 +28,15 @@ export default function MainTabNavigator() {
       tabBarOptions={{
         activeTintColor: Colors[colorScheme].text,
         style: {
-          backgroundColor: Colors[colorScheme].tint,
+          // backgroundColor: Colors[colorScheme].tint,
+          // backgroundColor: 'green',
+          backgroundColor: Colors[colorScheme].background,
+
+
         },
         indicatorStyle: {
-          // backgroundColor: Colors[colorScheme].background,
-          backgroundColor: 'black',
+          backgroundColor: Colors[colorScheme].text,
+          // backgroundColor: 'green',
           height: 4,
         },
         labelStyle: {

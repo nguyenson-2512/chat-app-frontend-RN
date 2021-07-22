@@ -27,6 +27,19 @@ function MenuThreeDots() {
     navigation.navigate('Login');
   }
 
+  const switchTheme = async () => {
+    try {
+      const theme = await AsyncStorage.getItem("theme");
+      if(theme == 'light') {
+        await AsyncStorage.setItem("theme", JSON.stringify('dark'));
+      } else {
+        await AsyncStorage.setItem("theme", JSON.stringify('light'));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const clearUser = async () => {
     try {
       await AsyncStorage.removeItem("user");
@@ -49,7 +62,12 @@ function MenuThreeDots() {
             </Text>
           }
         >
-          <MenuItem onPress={hideMenu}>Switch Mode</MenuItem>
+          <MenuItem 
+                      onPress={() => {
+                        hideMenu();
+                        switchTheme();
+                      }}
+          >Switch Mode</MenuItem>
           <MenuItem
             onPress={() => {
               hideMenu();

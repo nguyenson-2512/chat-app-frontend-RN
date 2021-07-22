@@ -9,12 +9,15 @@ import ContactItem from "../components/ContactItem";
 import { useEffect, useState } from "react";
 import { Octicons } from "@expo/vector-icons";
 import { filter } from "lodash";
+import useColorScheme from "../hooks/useColorScheme";
+import Colors from "../constants/Colors";
 
 export default function ContactsScreen() {
   const [userId, setUserId] = useState('');
   const [userList, setUserList] = useState<any>([]);
   const [userFullList, setFullUserList] = useState<any>([]);
   const [searchInput, setSearchInput] = useState("");
+  const colorScheme = useColorScheme();
 
   const getData = async () => {
     try {
@@ -60,6 +63,43 @@ export default function ContactsScreen() {
     return false;
   };
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: Colors[colorScheme].background,
+    },
+    formContent: {
+      flexDirection: "row",
+      marginTop: 5,
+      borderRadius: 30,
+    },
+    inputContainer: {
+      borderBottomColor: "#F5FCFF",
+      backgroundColor: "#FFFFFF",
+      borderBottomWidth: 1,
+      height: 45,
+      flexDirection: "row",
+      alignItems: "center",
+      flex: 1,
+      margin: 10,
+    },
+    iconBtnSearch: {
+      alignSelf: "center",
+    },
+    inputs: {
+      height: 45,
+      marginLeft: 16,
+      borderBottomColor: "#FFFFFF",
+      flex: 1,
+    },
+    inputIcon: {
+      marginLeft: 15,
+      justifyContent: "center",
+    },
+  });
+
   return (
     <View style={styles.container}>
       <View style={styles.formContent}>
@@ -88,39 +128,4 @@ export default function ContactsScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#EBEBEB",
-  },
-  formContent: {
-    flexDirection: "row",
-    marginTop: 5,
-    borderRadius: 30,
-  },
-  inputContainer: {
-    borderBottomColor: "#F5FCFF",
-    backgroundColor: "#FFFFFF",
-    borderBottomWidth: 1,
-    height: 45,
-    flexDirection: "row",
-    alignItems: "center",
-    flex: 1,
-    margin: 10,
-  },
-  iconBtnSearch: {
-    alignSelf: "center",
-  },
-  inputs: {
-    height: 45,
-    marginLeft: 16,
-    borderBottomColor: "#FFFFFF",
-    flex: 1,
-  },
-  inputIcon: {
-    marginLeft: 15,
-    justifyContent: "center",
-  },
-});
+
