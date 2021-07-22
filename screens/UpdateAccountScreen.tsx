@@ -42,7 +42,7 @@ export default class UpdateAccountScreen extends React.Component<any, any> {
         email: this.state.email,
         bio: this.state.bio,
         address: this.state.address,
-        imageUri: this.state.image,
+        imageUri: this.state.imageUri,
       }),
     })
       .then((response) => response.json())

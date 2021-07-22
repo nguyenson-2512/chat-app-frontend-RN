@@ -97,7 +97,7 @@ function RootNavigator() {
         name="Root"
         component={MainTabNavigator}
         options={({ navigation }) => ({
-          title: "WhatsApp",
+          title: "Ch4tter App",
           headerRight: () => (
             <View
               style={{
@@ -125,7 +125,7 @@ function RootNavigator() {
         name="ChatRoom"
         component={ChatRoomScreen}
         options={({ route }) => ({
-          title: route.params.name,
+          title: route.params.targetUser.username,
           headerRight: () => (
             <View
               style={{
