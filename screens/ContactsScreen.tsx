@@ -1,11 +1,8 @@
 import * as React from "react";
 import { FlatList, StyleSheet, Image, TextInput } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { API, graphqlOperation } from 'aws-amplify';
 import { View, Text } from "../components/Themed";
 import ContactItem from "../components/ContactItem";
-
-// import { listUsers }  from '../src/graphql/queries';
 import { useEffect, useState } from "react";
 import { Octicons } from "@expo/vector-icons";
 import { filter } from "lodash";
@@ -13,7 +10,7 @@ import useColorScheme from "../hooks/useColorScheme";
 import Colors from "../constants/Colors";
 
 export default function ContactsScreen() {
-  const [userId, setUserId] = useState('');
+  const [userId, setUserId] = useState({});
   const [userList, setUserList] = useState<any>([]);
   const [userFullList, setFullUserList] = useState<any>([]);
   const [searchInput, setSearchInput] = useState("");
@@ -31,11 +28,11 @@ export default function ContactsScreen() {
   useEffect(() => {
     async function getUserInfo() {
       const {user} = await getData();
-      setUserId(user._id);
+      setUserId(user);
       fetchUserList(user._id)
     }
     getUserInfo();
-  }, [userId]);
+  }, []);
 
   const fetchUserList = (userId: string) => {
     fetch(`http://localhost:3000/api/user/${userId}/list-users/`)
@@ -121,7 +118,7 @@ export default function ContactsScreen() {
       <FlatList
         style={{ width: "100%" }}
         data={userList}
-        renderItem={({ item }) => <ContactItem user={item} />}
+        renderItem={({ item }) => <ContactItem user={item} myInfo={userId}/>}
         keyExtractor={(item) => item?._id}
       />
     </View>

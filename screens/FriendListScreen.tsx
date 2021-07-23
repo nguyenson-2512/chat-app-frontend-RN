@@ -1,35 +1,78 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as React from "react";
-import { StyleSheet, TouchableOpacity, Image } from "react-native";
+import { useEffect, useState } from "react";
+import { StyleSheet, TouchableOpacity, Image, FlatList } from "react-native";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { Text, View } from "../components/Themed";
 
 export default function FriendListScreen() {
+  const [friendList, setFriendList] = useState<any>({});
+  const [myInfo, setMyInfo] = useState<any>({});
+
+  const getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("user");
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    async function getUserInfo() {
+      const { user } = await getData();
+      setMyInfo(user);
+      getListUser(user?._id);
+    }
+    getUserInfo();
+  }, []);
+
+  const getListUser = (userId: any) => {
+    fetch(`http://localhost:3000/api/user/request/${userId}`)
+      .then((response) => response.json())
+      .then((json) => {
+        setFriendList(json.data.friendList);
+        console.log('hahhaha')
+      })
+      .catch((error) => console.error(error));
+  };
+
   return (
-    // <View style={styles.container}>
-    //   <Text style={styles.title}>Frenene</Text>
-    //   <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-    // </View>
-    <>
-      <TouchableOpacity style={[styles.card, { borderColor: "#4482B5" }]}>
-        <View style={styles.cardContent}>
-          <Image
-            style={[styles.image, styles.imageContent]}
-            source={{
-              uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png",
-            }}
-          />
-          <Text style={styles.name}>Son Nguyen</Text>
-        </View>
-      </TouchableOpacity>
-    </>
+    <View lightColor="white" darkColor="black" style={{ flex: 1 }}>
+      <FlatList
+        data={friendList}
+        keyExtractor={(item) => {
+          return item?._id;
+        }}
+        renderItem={({ item }) => {
+          return (
+            <View lightColor="white" darkColor="black">
+            <TouchableOpacity>
+              <View style={[styles.card, { borderColor: "#4482B5", marginTop:10 }]}>
+              <View lightColor="white" darkColor="black" style={styles.cardContent}>
+                <View style={{display: 'flex', flexDirection: 'row'}}>
+                <Image
+                  style={[styles.image, styles.imageContent]}
+                  source={{
+                    uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png",
+                  }}
+                />
+                <Text lightColor="black" darkColor="white" style={styles.name}>{item.username}</Text>
+                </View>
+                {/* <MaterialCommunityIcons name="account-details" size={24} color="black" style={{marginRight: 15}}/> */}
+              </View>
+              </View>
+            </TouchableOpacity>
+            </View>
+          )
+        }}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#EBEBEB",
-  },
   icon: {
     width: 30,
     height: 30,
@@ -37,8 +80,6 @@ const styles = StyleSheet.create({
   card: {
     paddingTop: 10,
     paddingBottom: 10,
-    marginTop: 5,
-    backgroundColor: "#FFFFFF",
     flexDirection: "column",
     borderTopWidth: 40,
     marginBottom: 20,
@@ -46,6 +87,7 @@ const styles = StyleSheet.create({
   cardContent: {
     flexDirection: "row",
     marginLeft: 10,
+    justifyContent: 'space-between'
   },
   imageContent: {
     marginTop: -40,

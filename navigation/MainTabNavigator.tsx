@@ -22,12 +22,13 @@ import FriendRequestScreen from '../screens/FriendRequestScreen';
 const MainTab = createMaterialTopTabNavigator<MainTabParamList>();
 const Tab = createMaterialTopTabNavigator();
 function FriendTabs() {
+  const colorScheme = useColorScheme();
   return (
     <Tab.Navigator
       tabBarOptions={{
-        labelStyle: { fontSize: 12, color: '#354a5f' },
+        labelStyle: { fontSize: 12, color: Colors[colorScheme].neutral },
         tabStyle: { width: 200, height: 40, marginTop: 10, justifyContent: 'center' },
-        style: { backgroundColor: 'white', textAlign: 'center', display: 'flex', width: '100%' },
+        style: { backgroundColor: Colors[colorScheme].background, textAlign: 'center', display: 'flex', width: '100%' },
         indicatorStyle: {height: 37,width: 200, backgroundColor: '#69C1E6', borderRadius: 40}
       }}>
       <Tab.Screen name="Friend List" component={FriendListScreen} />

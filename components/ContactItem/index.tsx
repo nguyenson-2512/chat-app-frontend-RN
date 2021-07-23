@@ -1,17 +1,14 @@
-import React from "react";
-import { View, Text, Image, TouchableWithoutFeedback, StyleSheet } from "react-native";
-import { User } from "../../types";
-// import styles from "./style";
+import React, { useEffect, useState } from "react";
+import { View, Text, Image, TouchableWithoutFeedback, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import useColorScheme from "../../hooks/useColorScheme";
 import Colors from "../../constants/Colors";
+import { AntDesign } from '@expo/vector-icons';
 
-export type ContactItemProps = {
-  user: User;
-};
+const ContactItem = (props: any) => {
+  const { user, myInfo } = props;
+  const [isShow, setIsShow] = useState<any>(null);
 
-const ContactItem = (props: ContactItemProps) => {
-  const { user } = props;
 
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
@@ -25,6 +22,8 @@ const ContactItem = (props: ContactItemProps) => {
     },
     lefContainer: {
       flexDirection: 'row',
+      justifyContent: 'space-between',
+      width: "100%",
     },
     midContainer: {
       justifyContent: 'space-around'
@@ -45,7 +44,41 @@ const ContactItem = (props: ContactItemProps) => {
       color: Colors[colorScheme].text50
     },
   });
-  
+
+  useEffect(() => {
+    setIsShow(user.friendList.findIndex(item => item.id == myInfo._id) == -1 ? true : false)
+  }, []);
+
+  const sendRequest = () => {
+    return fetch("http://localhost:3000/api/user/send-request", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        sender: {
+          id: myInfo._id,
+          username: myInfo.username,
+          imageUri: myInfo.imageUri
+        },
+        receiver: {
+          id: user._id,
+          username: user.username,
+          imageUri: user.imageUri
+        }
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if(responseJson) {
+          setIsShow(false)
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
   const onClick = async () => {
     try {
@@ -61,13 +94,18 @@ const ContactItem = (props: ContactItemProps) => {
     <TouchableWithoutFeedback onPress={onClick}>
       <View style={styles.container}>
         <View style={styles.lefContainer}>
-          <Image source={{ uri: user.imageUri }} style={styles.avatar} />
-          <View style={styles.midContainer}>
-            <Text style={styles.username}>{user.username}</Text>
-            <Text numberOfLines={2} style={styles.status}>
-              Online
-            </Text>
+          <View style={{flexDirection: 'row'}}>
+            <Image source={{ uri: user.imageUri }} style={styles.avatar} />
+            <View style={styles.midContainer}>
+              <Text style={styles.username}>{user.username}</Text>
+              <Text numberOfLines={2} style={styles.status}>
+                Online
+              </Text>
+            </View>
           </View>
+          {isShow ? <TouchableOpacity onPress={sendRequest}>
+          <AntDesign name="adduser" size={24} color="black" style={{marginTop: 4}} />
+          </TouchableOpacity>: null}
         </View>
       </View>
     </TouchableWithoutFeedback>
