@@ -24,6 +24,7 @@ import MenuThreeDots from "../components/MenuThreeDots";
 import UpdateAccountScreen from "../screens/UpdateAccountScreen";
 import ChatRoomMenu from "../components/ChatRoomMenu";
 import UserDetailScreen from "../screens/UserDetailScreens";
+import WelcomeScreen from "../screens/WelcomeScreen";
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -79,7 +80,7 @@ const Stack = createStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
     <Stack.Navigator
-      initialRouteName="Login"
+      initialRouteName="Welcome"
       screenOptions={{
         headerStyle: {
           backgroundColor: Colors.light.tint,
@@ -157,6 +158,11 @@ function RootNavigator() {
         options={{ headerShown: false }}
         name="Register"
         component={RegisterScreen}
+      ></Stack.Screen>
+            <Stack.Screen
+        options={{ headerShown: false }}
+        name="Welcome"
+        component={WelcomeScreen}
       ></Stack.Screen>
       <Stack.Screen
         name="UpdateAccount"

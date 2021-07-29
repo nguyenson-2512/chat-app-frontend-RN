@@ -32,6 +32,7 @@ export default function FriendRequestScreen({navigation}) {
     fetch(`http://localhost:3000/api/user/request/${userId}`)
       .then((response) => response.json())
       .then((json) => {
+        console.log(json.data.request, '----')
         setUserRequest(json.data.request);
       })
       .catch((error) => console.error(error));
@@ -71,9 +72,6 @@ export default function FriendRequestScreen({navigation}) {
 
   return (
     <View lightColor="white" darkColor="black" style={{ flex: 1 }}>
-                      <TouchableOpacity onPress={() => acceptInvite('df')}>
-                  <Feather name="user-check" size={24} color="black" />
-                </TouchableOpacity>
       <FlatList
         data={userRequest}
         keyExtractor={(item) => {

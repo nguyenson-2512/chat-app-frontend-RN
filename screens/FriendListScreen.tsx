@@ -33,7 +33,6 @@ export default function FriendListScreen() {
       .then((response) => response.json())
       .then((json) => {
         setFriendList(json.data.friendList);
-        console.log('hahhaha')
       })
       .catch((error) => console.error(error));
   };
@@ -55,12 +54,11 @@ export default function FriendListScreen() {
                 <Image
                   style={[styles.image, styles.imageContent]}
                   source={{
-                    uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png",
+                    uri: item?.imageUri
                   }}
                 />
                 <Text lightColor="black" darkColor="white" style={styles.name}>{item.username}</Text>
                 </View>
-                {/* <MaterialCommunityIcons name="account-details" size={24} color="black" style={{marginRight: 15}}/> */}
               </View>
               </View>
             </TouchableOpacity>

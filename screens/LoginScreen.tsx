@@ -45,7 +45,7 @@ export default class LoginScreen extends Component<any, any> {
         this.setState({ checkLogin: responseJson.resultcode });
         if (this.state.checkLogin === 0) {
           //console.warn(responseJson);
-          Alert.alert("Thông báo!", "Bạn đã đăng nhập thành công!");
+          Alert.alert("Success!", "You are logged into the app!");
           // await this.storeUser(responseJson.data);
           // this.props.navigation.navigate('Root', {
           // })
@@ -55,7 +55,7 @@ export default class LoginScreen extends Component<any, any> {
             routes: [{ name: 'Root' }],
           });
         } else {
-          Alert.alert("Thông báo!", "Bạn đã đăng nhập không thành công!");
+          Alert.alert("Fail!", "Please try again");
         }
       })
       .catch((error) => {

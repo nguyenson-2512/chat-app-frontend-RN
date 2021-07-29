@@ -8,6 +8,7 @@ export type RootStackParamList = {
   Register: undefined;
   UpdateAccount: undefined;
   UserDetail: undefined;
+  Welcome: undefined;
 };
 
 export type AuthStackParamList = {

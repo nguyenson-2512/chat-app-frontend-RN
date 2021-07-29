@@ -49,7 +49,7 @@ const CallItem = (props: CallItemProps) => {
         height: 50,
       },
       nameContainer: {
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'space-between',
         width: 270,
       },
@@ -58,6 +58,14 @@ const CallItem = (props: CallItemProps) => {
         fontWeight: '600',
         color: Colors[colorScheme].text,
         fontSize: 15,
+        marginTop: 10
+      },
+      active: {
+        marginLeft: 15,
+        fontWeight: '400',
+        color: '#69a3ea',
+        fontSize: 12,
+        marginTop: 5
       },
       end: {
         flexDirection: 'row',
@@ -76,6 +84,7 @@ const CallItem = (props: CallItemProps) => {
         <View>
             <View style={styles.nameContainer}>
             <Text style={styles.nameTxt}>{user.username}</Text>
+            <Text style={styles.active}>Active</Text>
             </View>
             <View style={styles.end}>
             <Ionicons style={[styles.icon, {marginLeft:15, marginRight:5, width:14, height:14}]} name="checkmark" size={24} color={Colors[colorScheme].icon} />

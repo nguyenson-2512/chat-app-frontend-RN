@@ -73,9 +73,11 @@ export default function ContactsScreen() {
       borderRadius: 30,
     },
     inputContainer: {
-      borderBottomColor: "#F5FCFF",
+      // borderBottomColor: "#F5FCFF",
       backgroundColor: "#FFFFFF",
-      borderBottomWidth: 1,
+      borderWidth: 1,
+      borderColor: 'gray',
+      borderRadius: 30,
       height: 45,
       flexDirection: "row",
       alignItems: "center",

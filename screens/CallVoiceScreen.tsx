@@ -55,26 +55,17 @@ export default function CallVoiceScreen(props: any) {
   return (
     <View style={{ flex: 1 }}>
     <View style={styles.topBar}>
-      <View style={{ flexDirection: 'row' }}>
+      {/* <View style={{ flexDirection: 'row' }}>
         <Image style={[styles.iconImg, { marginRight: 50 }]} source={{uri: "https://img.icons8.com/color/48/000000/video-call.png"}}/>
-        <Text style={styles.subText}>WHATSAPP CALL</Text>
-      </View>
+        <Text style={styles.subText}>CH4TTER CALL</Text>
+      </View> */}
       <Text style={styles.title}>{user.username}</Text>
       <Text style={styles.subText}>CALLING</Text>
     </View>
-    <TouchableOpacity style={[styles.btnStopCall, styles.shadow]} onPress={clickEventListener}>
-      <Image style={styles.iconImg} source={{uri: "https://img.icons8.com/windows/32/000000/phone.png"}}/>
-    </TouchableOpacity>
     <Image style={[styles.image]} source={{ uri: user.imageUri }}/>
     <View style={styles.bottomBar}>
-      <TouchableOpacity style={[styles.btnAction, styles.shadow]} onPress={clickEventListener}>
-        <Image style={styles.iconImg} source={{uri: "https://img.icons8.com/material-rounded/48/000000/speaker.png"}}/>
-      </TouchableOpacity>
-      <TouchableOpacity style={[styles.btnAction, styles.shadow]} onPress={clickEventListener}>
-        <Image style={styles.iconImg} source={{uri: "https://img.icons8.com/material-outlined/48/000000/topic.png"}}/>
-      </TouchableOpacity>
-      <TouchableOpacity style={[styles.btnAction, styles.shadow]} onPress={clickEventListener}>
-        <Image style={styles.iconImg} source={{uri: "https://img.icons8.com/material-outlined/48/000000/block-microphone.png"}}/>
+      <TouchableOpacity style={[styles.btnStopCall, styles.shadow]} onPress={clickEventListener}>
+        <Image style={styles.iconImg} source={{uri: "https://img.icons8.com/windows/32/000000/phone.png"}}/>
       </TouchableOpacity>
     </View>
   </View>
@@ -83,7 +74,7 @@ export default function CallVoiceScreen(props: any) {
 
 const styles = StyleSheet.create({
   topBar: {
-    backgroundColor: '#075e54',
+    backgroundColor: '#3898c1',
     height: 140,
     justifyContent: 'center',
     padding: 20,
@@ -107,7 +98,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#075e54',
+    backgroundColor: '#3898c1',
     flex: 1,
   },
   title: {
@@ -132,8 +123,8 @@ const styles = StyleSheet.create({
     borderRadius:32,
     backgroundColor: "#FF0000",
     position:'absolute',
-    bottom:160,
-    left:'40%',
+    bottom:50,
+    left:'43%',
     zIndex:1,
   },
   btnAction: {
