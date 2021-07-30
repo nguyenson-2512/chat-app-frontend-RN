@@ -93,7 +93,7 @@ export default function FriendRequestScreen() {
                 <Image
                   style={[styles.image, styles.imageContent]}
                   source={{
-                    uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png",
+                    uri: item?.imageUri,
                   }}
                 />
                 <Text lightColor="black" darkColor="white" style={styles.name}>{item.username}</Text>

@@ -33,11 +33,11 @@ const styles = StyleSheet.create({
     marginLeft: 22
   },
   like: {
+    borderRadius: 50,
+    backgroundColor: '#F1F3F4',
     position: "absolute",
     bottom: -10,
     right: -8,
-    borderRadius: 50,
-    backgroundColor: '#F1F3F4',
   }
 });
 

@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Alert } from "react-native";
 import Menu, { MenuDivider, MenuItem } from "react-native-material-menu";
 import { useNavigation } from "@react-navigation/native";
 
@@ -30,21 +30,36 @@ function ChatRoomMenu() {
   };
 
   async function onDeleteChats() {
-    const targetChatroom = await getData();
-    fetch(`http://localhost:3000/api/chat/delete/${targetChatroom}`, {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        navigation.goBack();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    Alert.alert(
+      "Are your sure?",
+      "Are you sure you want to remove this chat room?",
+      [
+        // The "Yes" button
+        {
+          text: "Yes",
+          onPress: async () => {
+            const targetChatroom = await getData();
+            fetch(`http://localhost:3000/api/chat/delete/${targetChatroom}`, {
+              method: "DELETE",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+            })
+              .then((response) => response.json())
+              .then((responseJson) => {
+                navigation.goBack();
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          },
+        },
+        {
+          text: "No",
+        },
+      ]
+    );
   }
 
   function navigateProfile() {
@@ -76,7 +91,7 @@ function ChatRoomMenu() {
         </MenuItem>
         <MenuItem
           onPress={() => {
-            hideMenu();
+            // hideMenu();
             onDeleteChats();
           }}
         >

@@ -20,34 +20,28 @@ const ChatMessage = (props: any) => {
   }
 
   function deleteChat() {
-    console.log('jjaja')
-    props.parentCallback(
-      {...message}
+    Alert.alert(
+      "Are your sure?",
+      "Are you sure you want to remove this chat item?",
+      [
+        // The "Yes" button
+        {
+          text: "Yes",
+          onPress: async () => {
+            try {
+              props.parentCallback(
+                {...message}
+              );
+            } catch (e) {
+              console.log(e);
+            }
+          },
+        },
+        {
+          text: "No",
+        },
+      ]
     );
-
-
-    // Alert.alert(
-    //   "Are your sure?",
-    //   "Are you sure you want to remove this chat item?",
-    //   [
-    //     // The "Yes" button
-    //     {
-    //       text: "Yes",
-    //       onPress: async () => {
-    //         try {
-    //           props.parentCallback({
-    //             message
-    //           });
-    //         } catch (e) {
-    //           console.log(e);
-    //         }
-    //       },
-    //     },
-    //     {
-    //       text: "No",
-    //     },
-    //   ]
-    // );
   }
 
   function likeChat(chatItem) {
@@ -89,10 +83,9 @@ const ChatMessage = (props: any) => {
           <Text style={styles.time}>{moment(message.createdAt).fromNow()}</Text>
         </View>
         {chat?.like ? <Entypo name="heart" size={20} color="red" style={[styles.like, {
-          marginLeft: isMyMessage() ? '20%' : 0,
+
         }]}/>: <TouchableWithoutFeedback onPress={() => likeChat(message)}>
         <Entypo name="heart" size={20} color="white" style={[styles.like, {
-          marginLeft: isMyMessage() ? '20%' : 0,
         }]}/>
         </TouchableWithoutFeedback>}
       </View>

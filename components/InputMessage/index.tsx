@@ -118,14 +118,14 @@ const InputMessage = (props: any) => {
             value={message}
             onChangeText={setMessage}
           />
-          <TouchableOpacity onPress={openCamera}>
+          {/* <TouchableOpacity onPress={openCamera}>
             <Fontisto
                   name="camera"
                   size={24}
                   color="grey"
                   style={styles.icon}
                 />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           {!message && (
             <TouchableOpacity onPress={selectImage}>
               <MaterialIcons name="photo-library" size={26} color="black" />
