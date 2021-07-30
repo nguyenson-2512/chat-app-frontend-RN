@@ -31,6 +31,13 @@ const styles = StyleSheet.create({
     height: 250,
     resizeMode: "contain",
     marginLeft: 22
+  },
+  like: {
+    position: "absolute",
+    bottom: -10,
+    right: -8,
+    borderRadius: 50,
+    backgroundColor: '#F1F3F4',
   }
 });
 

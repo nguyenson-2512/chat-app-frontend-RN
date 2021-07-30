@@ -1,8 +1,9 @@
-import React from 'react';
-import {Text, View, Image, TouchableWithoutFeedback, Alert} from 'react-native';
+import React, { useState } from 'react';
+import {Text, View, Image, TouchableWithoutFeedback, Alert, TouchableOpacity} from 'react-native';
 import { Message } from "../../types";
 import moment from "moment";
 import styles from './style';
+import { Entypo } from '@expo/vector-icons';
 
 export type ChatMessageProps = {
   message: Message;
@@ -11,6 +12,8 @@ export type ChatMessageProps = {
 
 const ChatMessage = (props: any) => {
   const { message, myId } = props;
+  const [chat, setChat] = useState(message);
+
 
   const isMyMessage = () => {
     return message.user.id === myId;
@@ -47,6 +50,26 @@ const ChatMessage = (props: any) => {
     // );
   }
 
+  function likeChat(chatItem) {
+    fetch(`http://localhost:3000/api/chat/like/${chatItem._id}`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      }
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((json) => {
+        if(json) {
+          const updateChat = {...chat, like: true}
+          setChat(updateChat)
+        }
+      })
+      .catch((error) => console.error(error));
+  }
+
   return (
     <TouchableWithoutFeedback onLongPress={() => deleteChat()}>
     <View style={styles.container}>
@@ -65,6 +88,13 @@ const ChatMessage = (props: any) => {
             />}
           <Text style={styles.time}>{moment(message.createdAt).fromNow()}</Text>
         </View>
+        {chat?.like ? <Entypo name="heart" size={20} color="red" style={[styles.like, {
+          marginLeft: isMyMessage() ? '20%' : 0,
+        }]}/>: <TouchableWithoutFeedback onPress={() => likeChat(message)}>
+        <Entypo name="heart" size={20} color="white" style={[styles.like, {
+          marginLeft: isMyMessage() ? '20%' : 0,
+        }]}/>
+        </TouchableWithoutFeedback>}
       </View>
     </View>
     </TouchableWithoutFeedback>
