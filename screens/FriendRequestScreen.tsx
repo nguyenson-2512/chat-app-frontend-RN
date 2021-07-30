@@ -1,14 +1,17 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { StyleSheet, TouchableOpacity, Image, FlatList } from "react-native";
+import { StyleSheet, TouchableOpacity, Image, FlatList, Alert } from "react-native";
 import { Feather } from '@expo/vector-icons';
 
 import { Text, View } from "../components/Themed";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 
-export default function FriendRequestScreen({navigation}) {
+export default function FriendRequestScreen() {
   const [userRequest, setUserRequest] = useState<any>({});
   const [myInfo, setMyInfo] = useState<any>({});
+  const isFocused = useIsFocused();
+  const navigation = useNavigation();
 
   const getData = async () => {
     try {
@@ -26,7 +29,7 @@ export default function FriendRequestScreen({navigation}) {
       getListUser(user?._id);
     }
     getUserInfo();
-  }, []);
+  }, [isFocused]);
 
   const getListUser = (userId: any) => {
     fetch(`http://localhost:3000/api/user/request/${userId}`)
@@ -39,7 +42,7 @@ export default function FriendRequestScreen({navigation}) {
   };
 
   const acceptInvite = (user: any) => {
-    navigation.navigate('Friend List')
+    // navigation.navigate('Friend List')
     return fetch("http://localhost:3000/api/user/accept-request", {
       method: "POST",
       headers: {
@@ -62,7 +65,10 @@ export default function FriendRequestScreen({navigation}) {
       .then((response) => response.json())
       .then((responseJson) => {
         if(responseJson) {
-          navigation.navigate('Friend List')
+          Alert.alert("Success!", "Friend request has been accepted!");
+          console.log("filter", responseJson)
+          const filterResult = userRequest.filter(u => u?.id !== user?.id)
+          setUserRequest(filterResult);
         }
       })
       .catch((error) => {

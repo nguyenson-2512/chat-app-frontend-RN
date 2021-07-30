@@ -16,6 +16,7 @@ import {
 import styles from "./style";
 import * as ImagePicker from "expo-image-picker";
 import EmojiPicker from 'rn-emoji-keyboard';
+import { Camera } from 'expo-camera';
 
 const InputMessage = (props: any) => {
   const { chatRoomID } = props;
@@ -82,6 +83,23 @@ const InputMessage = (props: any) => {
     }
   };
 
+  const openCamera = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert("You've refused to allow this appp to access your photos!");
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Videos
+    });
+    if (!result.cancelled) {
+      console.log(result)
+      // onSendPress(result.uri)
+    }
+  }
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS == "ios" ? "padding" : "height"}
@@ -100,20 +118,17 @@ const InputMessage = (props: any) => {
             value={message}
             onChangeText={setMessage}
           />
-          <Entypo
-            name="attachment"
-            size={24}
-            color="grey"
-            style={styles.icon}
-          />
+          <TouchableOpacity onPress={openCamera}>
+            <Fontisto
+                  name="camera"
+                  size={24}
+                  color="grey"
+                  style={styles.icon}
+                />
+          </TouchableOpacity>
           {!message && (
             <TouchableOpacity onPress={selectImage}>
-              <Fontisto
-                name="camera"
-                size={24}
-                color="grey"
-                style={styles.icon}
-              />
+              <MaterialIcons name="photo-library" size={26} color="black" />
             </TouchableOpacity>
           )}
         </View>

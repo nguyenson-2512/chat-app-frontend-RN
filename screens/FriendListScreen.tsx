@@ -3,12 +3,14 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity, Image, FlatList } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useIsFocused } from "@react-navigation/native";
 
 import { Text, View } from "../components/Themed";
 
 export default function FriendListScreen() {
   const [friendList, setFriendList] = useState<any>({});
   const [myInfo, setMyInfo] = useState<any>({});
+  const isFocused = useIsFocused();
 
   const getData = async () => {
     try {
@@ -26,12 +28,13 @@ export default function FriendListScreen() {
       getListUser(user?._id);
     }
     getUserInfo();
-  }, []);
+  }, [isFocused]);
 
   const getListUser = (userId: any) => {
     fetch(`http://localhost:3000/api/user/request/${userId}`)
       .then((response) => response.json())
       .then((json) => {
+        console.log(json.data.friendList)
         setFriendList(json.data.friendList);
       })
       .catch((error) => console.error(error));

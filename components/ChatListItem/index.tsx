@@ -71,7 +71,7 @@ function ChatListItem(props: any) {
       <View style={styles.container}>
         <View style={styles.leftContainer}>
           <Image
-            source={{ uri: targetUser?.imageUri }}
+            source={{ uri:  targetUser?.imageUri}}
             style={styles.avatar}
           />
           <View style={styles.midContainer}>

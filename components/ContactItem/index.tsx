@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, TouchableWithoutFeedback, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableWithoutFeedback, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import useColorScheme from "../../hooks/useColorScheme";
 import Colors from "../../constants/Colors";
@@ -73,6 +73,7 @@ const ContactItem = (props: any) => {
       .then((responseJson) => {
         if(responseJson) {
           setIsShow(false)
+          Alert.alert("Success!", "Friend request has been sent!");
         }
       })
       .catch((error) => {
