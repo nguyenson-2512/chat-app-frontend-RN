@@ -127,11 +127,31 @@ const ContactsScreen = (props: any) => {
     });
   };
 
+  const deleteChat = (chat: any) => {
+    fetch(`http://localhost:3000/api/chat/item/${chat._id}`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      }
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((json) => {
+        if(json) {
+          const updateChatList = chatList.filter(item => item._id !== chat._id)
+          setChatList(updateChatList);
+        }
+      })
+      .catch((error) => console.error(error));
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
         data={chatList}
-        renderItem={({ item }) => <ChatMessage message={item} myId={userId} />}
+        renderItem={({ item }) => <ChatMessage message={item} myId={userId} parentCallback={deleteChat}/>}
         inverted
         keyExtractor={(item) => item._id.toString()}
         style={styles.flatList}
